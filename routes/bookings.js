@@ -1,31 +1,16 @@
 const express = require('express');
+const { 
+    getBookings,
+    getBooking,
+    createBooking,
+    updateBooking,
+    deleteBooking
+} = require('../controllers/bookingController') 
+
 const router = express.Router();
 
-
-router.post('/', (request, response) => {
-    response.status(200).json({});
-});
- 
-
-router.get('/', (request, response) => {
-    response.status(200).json({});
-});
-
-
-router.get('/:id', (request, response) => {
-    response.status(200).json({});
-});
-
-
-router.put('/:id', (request, response) => {
-    response.status(200).json({});
-});
-
-
-router.delete('/:id', (request, response) => {
-    response.status(200).json({});
-});
-
-
+router.route('/bookings').get(getBookings);
+router.route('/booking').post(createBooking);
+router.route('/booking/:id').get(getBooking).put(updateBooking).delete(deleteBooking); 
 
 module.exports = router;

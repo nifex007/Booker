@@ -13,7 +13,7 @@ const app = express();
 
 
 // Mount Routers
-app.use('/api/v1/bookings', bookings)
+app.use('/api/v1', bookings)
 
 const PORT = process.env.PORT || 8888;
 
