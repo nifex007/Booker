@@ -11,7 +11,12 @@ dotenv.config({ path: './config/config.env'})
 
 const app = express();
 
+const logger = (request, response, next) => {
+    console.log(`${request.method} request at ${request.protocol}://${request.get('host')}${request.originalUrl}`);
+    next();
+};
 
+app.use(logger)
 // Mount Routers
 app.use('/api/v1', bookings)
 
