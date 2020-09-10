@@ -1,12 +1,16 @@
 const express = require('express');
 const dotenv = require('dotenv');
-
-// Routers
-const bookings = require('./routes/bookings');
+const connectDatabase = require('./config/database');
 
 
 // Env vars
 dotenv.config({ path: './config/config.env'})
+
+// Database connection
+connectDatabase();
+
+// Routers
+const bookings = require('./routes/bookings');
 
 
 const app = express();
