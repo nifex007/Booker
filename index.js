@@ -15,6 +15,9 @@ const bookings = require('./routes/bookings');
 
 const app = express();
 
+// Body parser
+app.use(express.json());
+
 const logger = (request, response, next) => {
     console.log(`${request.method} request at ${request.protocol}://${request.get('host')}${request.originalUrl}`);
     next();

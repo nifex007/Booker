@@ -21,11 +21,15 @@ const BookingSchema = new mongoose.Schema({
     },
     released: {
         type: Boolean,
+        default: false
     },
     releasedAt: {
         type: Date
     }
 });
+
+
+module.exports = mongoose.model('Booking', BookingSchema);
 
 
 

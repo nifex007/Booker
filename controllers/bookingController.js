@@ -1,11 +1,17 @@
-const ResourceModel = require(../models/Re.js)
+const BookingModel = require('../models/Booking.js');
 /**
  * Create new Booking
- * POST /api/v1/bookings
+ * POST /api/v1/booking
  * @access Private
  */
-exports.createBooking = (request, response, next) => {
-    response.status(200).json({}); 
+exports.createBooking = async (request, response, next) => {
+    
+    const booking = await BookingModel.create(request.body);
+    response.status(201).json({
+        success: true,
+        message: `${request.body.resourceName} booked :)`,
+        data: booking
+    }); 
 };
 
 
