@@ -1,3 +1,4 @@
+const ResourceModel = require(../models/Re.js)
 /**
  * Create new Booking
  * POST /api/v1/bookings
