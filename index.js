@@ -28,5 +28,14 @@ const PORT = process.env.PORT || 8888;
 
 
 
-app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on ${PORT}`));
+const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on ${PORT}`));
+
+// Global Error Handling
+process.on('unhandledRejection', (error, promise) => {
+    console.error(`Unhandled error: ${error.message}`);
+    // Terminate server and exit process
+    server.exit(1);
+
+});
+
 

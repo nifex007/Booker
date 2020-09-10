@@ -8,7 +8,7 @@ const connectDatabase = async () => {
         useUnifiedTopology: true
     });
 
-    console.log(`Application connected to ${connection.connection.name} on host ${connection.connection.host} and port ${connection.connection.port}`)
+    console.log(`Application connected to ${connection.connection.name} on ${connection.connection.host} and port ${connection.connection.port}`)
 }
 
 
