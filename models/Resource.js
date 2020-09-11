@@ -12,6 +12,10 @@ const ResourceSchema = new mongoose.Schema({
         unique: true,
         maxlength: [25, "Name should not be longer than 10 characters!"]
     }, 
+    resourceCategory : {
+        type: String,
+        enum: ['Room', 'Driver', 'Projector', 'Vehicle']
+    },
     description : {
         type: String,
         maxlength: [255, "Characters length should be more than 255"]
