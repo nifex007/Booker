@@ -35,7 +35,16 @@ exports.createBooking = async (request, response, next) => {
  * GET /api/v1/booking/:id
  * @access Private
  */
-exports.getBooking = (request, response, next) => {
+exports.getBooking = async (request, response, next) => {
+    try {
+        const booking = await BookingModel.findById(request.params.id);
+        if (!booking){
+            return response.status(404).json({success: false, message: 'Booking not found'});
+        }
+        response.status(200).json({success: true, message: 'OK', data:booking})
+    } catch (error) {
+        response.status(400).json({success: false, message:error.message});   
+    }
 
 };
 
