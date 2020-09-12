@@ -7,8 +7,7 @@ const InventorySchema = mongoose.Schema({
         index: {
             unique: true
         },
-        maxlength: 50,
-        
+        maxlength: 50,  
     }, 
     resourceCategory: {
         type: String

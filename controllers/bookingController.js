@@ -20,8 +20,13 @@ exports.createBooking = async (request, response, next) => {
  * GET /api/v1/bookings
  * @access Public
  */
- exports.getBookings = (request, response, next) => {
-    response.status(200).json({});    
+ exports.getBookings = async (request, response, next) => {
+    try {
+        const bookings = await BookingModel.find();
+        response.status(200).json({ success: true, message: 'OK', data: bookings })
+    } catch (error) {
+        response.status(400).json({ success: false, message:error.message}) 
+    }
  };
 
   
