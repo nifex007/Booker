@@ -51,10 +51,22 @@ exports.getBooking = async (request, response, next) => {
 
 /**
  * Update Booking
- * PUT /api/v1/bookings/:id
+ * PUT /api/v1/booking/:id
  * @access Private
  */
-exports.updateBooking = (request, response, next) => {
+exports.updateBooking = async (request, response, next) => {
+    try {
+        const booking = await BookingModel.findByIdAndUpdate(request.params.id, request.body, {new: true, runValidators: true});
+        if (!booking) {
+            return response.status(404).json({success: false, message: 'Booking not found'});
+        }
+        response.status(200).json({success:true, message: 'Booking updated', data: booking});
+
+    }catch(err) {
+        response.status(400).json({success:false, message:err.message})
+
+    }
+    
 
 };
 

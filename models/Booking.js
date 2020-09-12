@@ -15,6 +15,11 @@ const BookingSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    purpose: {
+        type: String,
+        required: true,
+        maxlength: 255
+    },
     createdAt: {
         type: Date,
         default: Date.now
