@@ -12,6 +12,7 @@ connectDatabase();
 // Routers
 const bookings = require('./routes/bookings');
 const resources = require('./routes/resources');
+const inventory = require('./routes/inventory');
 
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(logger)
 // Mount Routers
 app.use('/api/v1', bookings);
 app.use('/api/v1', resources)
+app.use('/api/v1/inventory', inventory);
 
 const PORT = process.env.PORT || 8888;
 
