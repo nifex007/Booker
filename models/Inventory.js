@@ -4,19 +4,23 @@ const InventorySchema = mongoose.Schema({
     resourceName: {
         type: String,
         required: true,
-        maxlength: 50
+        index: {
+            unique: true
+        },
+        maxlength: 50,
+        
     }, 
     resourceCategory: {
         type: String
     },
     resourceCount: {
-        type: Integer,
+        type: Number,
     }, 
     available : {
         type: Boolean
     }
 
-});
+}, {strict: true});
 
 
 module.exports = mongoose.model('Inventory', InventorySchema)
