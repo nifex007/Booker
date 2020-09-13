@@ -60,7 +60,7 @@ exports.updateBooking = async (request, response, next) => {
         if (!booking) {
             return response.status(404).json({success: false, message: 'Booking not found'});
         }
-        response.status(200).json({success:true, message: 'Booking updated', data: booking});
+        response.status(200).json({success:true, message: 'Booking Deleted'});
 
     }catch(err) {
         response.status(400).json({success:false, message:err.message})
@@ -76,6 +76,16 @@ exports.updateBooking = async (request, response, next) => {
  * POST /api/v1/booking/:id
  * @access Private
  */
-exports.deleteBooking = (request, response, next) => {
+exports.deleteBooking = async (request, response, next) => {
+    try {
+        const booking = await BookingModel.findByIdAndDelete(request.params.id);
+        if (!booking) {
+            return response.status(404).json({success:false, message:"Booking not found"})
+        }
+        response.status(200).json({success:true, message: 'Booking updated', data: booking});
+    } catch (error) {
+        response.status(400).json({success: false, message:error.message});
+        
+    }
 
 };
