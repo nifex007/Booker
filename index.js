@@ -1,5 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const colors = require('colors');
+const errorHandler = require('./middlewares/errorHandler')
 const connectDatabase = require('./config/database');
 
 
@@ -13,6 +15,7 @@ connectDatabase();
 const bookings = require('./routes/bookings');
 const resources = require('./routes/resources');
 const inventory = require('./routes/inventory');
+
 
 
 const app = express();
@@ -33,8 +36,9 @@ app.use('/api/v1', bookings);
 app.use('/api/v1', resources)
 app.use('/api/v1/inventory', inventory);
 
-const PORT = process.env.PORT || 8888;
+app.use(errorHandler);
 
+const PORT = process.env.PORT || 8888;
 
 
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on ${PORT}`));

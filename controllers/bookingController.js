@@ -1,4 +1,5 @@
 const BookingModel = require('../models/Booking.js');
+const ErrorResponse = require('../utilities/errorResponse')
 /**
  * Create new Booking
  * POST /api/v1/booking
@@ -25,7 +26,7 @@ exports.createBooking = async (request, response, next) => {
         const bookings = await BookingModel.find();
         response.status(200).json({ success: true, message: 'OK', data: bookings })
     } catch (error) {
-        response.status(400).json({ success: false, message:error.message}) 
+        response.status(400).json({ success: false, error: error.message}) 
     }
  };
 
@@ -39,11 +40,11 @@ exports.getBooking = async (request, response, next) => {
     try {
         const booking = await BookingModel.findById(request.params.id);
         if (!booking){
-            return response.status(404).json({success: false, message: 'Booking not found'});
+           return next(new ErrorResponse(`Booking with id of ${request.params.id} not found`, 404));
         }
         response.status(200).json({success: true, message: 'OK', data:booking})
     } catch (error) {
-        response.status(400).json({success: false, message:error.message});   
+        next(error);   
     }
 
 };
@@ -58,12 +59,12 @@ exports.updateBooking = async (request, response, next) => {
     try {
         const booking = await BookingModel.findByIdAndUpdate(request.params.id, request.body, {new: true, runValidators: true});
         if (!booking) {
-            return response.status(404).json({success: false, message: 'Booking not found'});
+        return next(new ErrorResponse(`Booking with id of ${request.params.id} not found`, 404));
         }
-        response.status(200).json({success:true, message: 'Booking Deleted'});
+        response.status(200).json({success:true, message: 'Booking Updated', data: booking});
 
-    }catch(err) {
-        response.status(400).json({success:false, message:err.message})
+    }catch(error) {
+        next(error);
 
     }
     
@@ -80,11 +81,11 @@ exports.deleteBooking = async (request, response, next) => {
     try {
         const booking = await BookingModel.findByIdAndDelete(request.params.id);
         if (!booking) {
-            return response.status(404).json({success:false, message:"Booking not found"})
+            return next(new ErrorResponse(`Booking with id of ${request.params.id} not found`, 404));
         }
-        response.status(200).json({success:true, message: 'Booking updated', data: booking});
+        response.status(200).json({success:true, message: 'Booking Deleted', data: booking});
     } catch (error) {
-        response.status(400).json({success: false, message:error.message});
+        next(error);
         
     }
 
