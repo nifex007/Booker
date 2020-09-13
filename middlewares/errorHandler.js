@@ -16,6 +16,17 @@ const errorHandler = (error, request, response, next) => {
         
      }
 
+    //  Mongoose Duplicate key error
+     if (error.code === 11000) {
+        const message = "Duplicate field noticed";
+        currentError = new ErrorResponse(message, 400);
+     }
+
+     if (error.message === 'ValidationError') {
+         const message = Object.values(error.errors).map(val => val.message);
+         currentError = new ErrorResponse(message, 400);
+     }
+
     response.status(currentError.statusCode || 500).json({
         success: false,
         error: currentError.message || "Server Error"

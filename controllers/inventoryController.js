@@ -7,12 +7,20 @@ const InventoryModel = require('../models/Inventory');
  */
 
  exports.addResourceToInventory = async (request, response, next) => {
-     const inventory = await InventoryModel.create(request.body);
+     try {
+        const inventory = await InventoryModel.create(request.body);
+        response.status(201).json({
+            success: true,
+            message: `${inventory.resourceName} added to Inventory`,
+            data: inventory
+        });
+         
+     } 
+     catch (error) {
+         next(error);   
+     }
+     
 
-     response.status(201).json({
-         success: true,
-         message: `${inventory.resourceName} added to Inventory`,
-         data: inventory
-     });
+     
 
  };
