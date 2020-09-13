@@ -1,5 +1,6 @@
 const BookingModel = require('../models/Booking.js');
 const ErrorResponse = require('../utilities/errorResponse')
+const asyncHandler = require('../middlewares/async');
 /**
  * Create new Booking
  * POST /api/v1/booking
@@ -36,19 +37,14 @@ exports.createBooking = async (request, response, next) => {
  * GET /api/v1/booking/:id
  * @access Private
  */
-exports.getBooking = async (request, response, next) => {
-    try {
-        const booking = await BookingModel.findById(request.params.id);
-        if (!booking){
-           return next(new ErrorResponse(`Booking with id of ${request.params.id} not found`, 404));
-        }
-        response.status(200).json({success: true, message: 'OK', data:booking})
-    } catch (error) {
-        next(error);   
+exports.getBooking = asyncHandler(async (request, response, next) => {
+    const booking = await BookingModel.findById(request.params.id);
+    if (!booking){
+       return next(new ErrorResponse(`Booking with id of ${request.params.id} not found`, 404));
     }
-
-};
-
+    response.status(200).json({success: true, message: 'OK', data:booking})
+}
+);
 
 /**
  * Update Booking
