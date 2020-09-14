@@ -5,6 +5,6 @@ const { addResourceToInventory } = require('../controllers/inventoryController')
 
 const router = express.Router();
 
-router.route('/').post(addResourceToInventory);
+router.route('/inventory').post(addResourceToInventory);
 
 module.exports = router;
