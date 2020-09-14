@@ -33,7 +33,7 @@ app.use(logger)
 
 // Mount Routers
 app.use('/api/v1', bookings);
-app.use('/api/v1', resources)
+app.use('/api/v1', resources);
 app.use('/api/v1/inventory', inventory);
 
 app.use(errorHandler);

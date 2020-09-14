@@ -4,6 +4,7 @@
 // Vehicles
 
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const ResourceSchema = new mongoose.Schema({
     name : {
@@ -27,6 +28,14 @@ const ResourceSchema = new mongoose.Schema({
         type: Boolean
     }
 });
+
+
+
+ResourceSchema.pre('save', function(next){
+    this.slug = slugify(this.name, {lower: true});
+    next();
+});
+
  
 
 module.exports = mongoose.model('Resource', ResourceSchema)

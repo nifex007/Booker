@@ -4,7 +4,7 @@ const { createResource } = require('../controllers/resourceController');
 
 const router = express.Router();
 
-router.route('/resource', createResource).post(createResource);
+router.route('/resource').post(createResource);
 
 
 module.exports = router;
