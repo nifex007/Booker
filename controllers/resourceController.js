@@ -18,8 +18,45 @@ exports.createResource = asyncHandler(async (request, response, next) => {
 
 
 /**
+ * Get a specific Resource
+ * GET /api/v1/resource/:id
+ * @access Private
+ */
+
+ exports.getResource = asyncHandler(async (request, response, next) => {
+     const resource = await ResourceModel.findById(request.params.id);
+
+     if (!resource){
+         return next(new ErrorResponse(`Resource with id of ${request.params.id} not found`, 404));
+     }
+     response.status(200).json({
+            success: true,
+            message: 'OK',
+            data: resource
+        });
+ });
+
+
+ /**
+ * Get all Resources
+ * GET /api/v1/resources
+ * @access Public
+ */
+
+ exports.getResources = asyncHandler(async (request, response, next) => {
+    const resources = await ResourceModel.find();
+    response.status(200).json({ 
+        success: true,
+        message: "OK",
+        data: resources
+    });
+ });
+
+
+
+/**
  * Update a specific Resource
- * POST /api/v1/resource/:id
+ * PUT /api/v1/resource/:id
  * @access Private
  */
  exports.updateResource = asyncHandler(async (request, response, next) => {
