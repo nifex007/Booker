@@ -1,4 +1,6 @@
 const InventoryModel = require('../models/Inventory');
+const ErrorResponse = require('../utilities/errorResponse');
+const asyncHandler = require('../middlewares/async');
 
 /**
  * Add new resource to inventory
@@ -6,21 +8,11 @@ const InventoryModel = require('../models/Inventory');
  * @access Private
  */
 
- exports.addResourceToInventory = async (request, response, next) => {
-     try {
-        const inventory = await InventoryModel.create(request.body);
-        response.status(201).json({
-            success: true,
-            message: `${inventory.resourceName} added to Inventory`,
-            data: inventory
-        });
-         
-     } 
-     catch (error) {
-         next(error);   
-     }
-     
-
-     
-
- };
+ exports.addResourceToInventory = asyncHandler(async (request, response, next) => {
+    const inventory = await InventoryModel.create(request.body);
+    response.status(201).json({
+        success: true,
+        message: `${inventory.resourceName} added to Inventory`,
+        data: inventory
+    });
+ });
