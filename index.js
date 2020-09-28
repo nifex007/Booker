@@ -15,6 +15,7 @@ connectDatabase();
 const bookings = require('./routes/bookings');
 const resources = require('./routes/resources');
 const inventory = require('./routes/inventory');
+const auth = require('./routes/auth');
 
 
 
@@ -35,6 +36,7 @@ app.use(logger)
 app.use('/api/v1', bookings);
 app.use('/api/v1', resources);
 app.use('/api/v1', inventory);
+app.use('/api/v1/auth', auth);
 
 app.use(errorHandler);
 
