@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 /**
  * Register User
- * POST /api/v1/auth/Register
+ * POST /api/v1/auth/register
  * @access Public
  **/
 
@@ -19,3 +19,39 @@ const User = require('../models/User');
 
     response.status(200).json({ success: true, token});
  });
+
+ /**
+ * LogIn User
+ * POST /api/v1/auth/login
+ * @access Public
+ **/
+
+exports.logIn = asyncHandler( async (request, response, next) => {
+     
+    const {email, password} = request.body;
+
+    // validate auth credentials
+    if (!email || !password) {
+        return next(new ErrorResponse('Please provide credentials'));
+    }
+
+    // check for user
+    const user = await User.findOne({email}).select('+password'); // allow password param
+
+    if (!user) {
+        return next(new ErrorResponse('Invalid Credentials', 401));
+    }
+
+    // compare password
+    const isMatch = await user.comparePassword(password);
+
+    if (!isMatch) {
+        return next(new ErrorResponse('Invalid Credentials', 401));
+    }
+
+    // token
+    const token = user.getSignedJwtToken()
+
+    response.status(200).json({ success: true, token});
+ });
+

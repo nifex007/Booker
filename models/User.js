@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { bgCyan } = require('colors');
 
 const UserSchema = new mongoose.Schema({
     name: { 
@@ -46,6 +47,12 @@ UserSchema.pre('save', async function(next){
 // JWT
 UserSchema.methods.getSignedJwtToken = function(){
     return jwt.sign( {id : this._id}, process.env.JWT_SECRET, { expiresIn : process.env.JWT_EXPIRE});
+}
+
+
+// Compare Password to encrypted password
+UserSchema.methods.comparePassword =  async function(enteredPassword){
+    return await bcryptjs.compare(enteredPassword, this.password)
 }
  
 
