@@ -15,9 +15,7 @@ const User = require('../models/User');
     const user = await User.create( {name, email, password, role});
 
     // token
-    const token = user.getSignedJwtToken()
-
-    response.status(200).json({ success: true, token});
+    sendTokenResponse(user, 200, response)
  });
 
  /**
@@ -50,8 +48,23 @@ exports.logIn = asyncHandler( async (request, response, next) => {
     }
 
     // token
-    const token = user.getSignedJwtToken()
-
-    response.status(200).json({ success: true, token});
+    sendTokenResponse(user, 200, response);
  });
+
+
+ const sendTokenResponse = (user, statusCode, response) => {
+     const token = user.getSignedJwtToken();
+
+     const options = {
+         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+         httpOnly: true
+     };
+
+     
+     if (process.env.NODE_ENV === 'production'){
+         options.secure = true;
+     }
+
+     response.status(statusCode).cookie('token', token, options).json({success: true, token});
+ }
 
