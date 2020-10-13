@@ -3,6 +3,7 @@ const ErrorResponse = require('../utilities/errorResponse')
 const asyncHandler = require('../middlewares/async');
 const User = require('../models/User');
 
+
 /**
  * Register User
  * POST /api/v1/auth/register
@@ -67,4 +68,18 @@ exports.logIn = asyncHandler( async (request, response, next) => {
 
      response.status(statusCode).cookie('token', token, options).json({success: true, token});
  }
+
+
+ /**
+ * Register Get Logged In User
+ * POST /api/v1/auth/currentuser
+ * @access Private
+ **/
+
+
+ exports.currentUser = asyncHandler(async (request, response, next) => {
+     const user = await User.findById(request.user.id);
+
+    response.status(200).json({success: true, data: user});
+ });
 

@@ -1,6 +1,7 @@
 const BookingModel = require('../models/Booking.js');
 const ErrorResponse = require('../utilities/errorResponse')
 const asyncHandler = require('../middlewares/async');
+
 /**
  * Create new Booking
  * POST /api/v1/booking

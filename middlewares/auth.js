@@ -10,6 +10,8 @@ exports.protect = asyncHandler(async (request, response, next) => {
 
     if (request.headers.authorization && request.headers.authorization.startsWith('Bearer')) {
         token = request.headers.authorization.split(' ')[1];
+
+        console.log(token, 'Token')
     }
 
     if (!token) {
@@ -19,13 +21,14 @@ exports.protect = asyncHandler(async (request, response, next) => {
     try {
         const decodedJWT = jwt.verify(token, process.env.JWT_SECRET);
 
-        console.log(decodedJWT);
+        console.log('decodedJWT',decodedJWT);
 
         request.user = await User.findById(decodedJWT.id);
 
         next();
         
     } catch (error) {
+        console.log(error);
         
     }
 });
