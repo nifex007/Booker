@@ -32,3 +32,13 @@ exports.protect = asyncHandler(async (request, response, next) => {
         
     }
 });
+
+// Grant role specific access
+exports.authorize = (...roles) => {
+    return (request, response, next) => {
+        if (!roles.includes(request.user.role)){
+            return next(new ErrorResponse(`${request.user.role} is not authorized to perform this activity`, 403) )
+        }
+        next();
+    }
+}
