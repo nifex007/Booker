@@ -7,7 +7,11 @@ const asyncHandler = require('../middlewares/async');
  * POST /api/v1/booking
  * @access Private
  */
-exports.createBooking = async (request, response, next) => {
+exports.createBooking = asyncHandler(async (request, response, next) => {
+
+    // add user to request body if
+    request.body.user = request.user.id;
+
     
     const booking = await BookingModel.create(request.body);
     response.status(201).json({
@@ -15,8 +19,8 @@ exports.createBooking = async (request, response, next) => {
         message: `${request.body.resourceName} booked :)`,
         data: booking
     }); 
-};
-
+}
+); 
 
 /**
  * Get all Bookings

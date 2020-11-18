@@ -7,6 +7,11 @@ const BookingSchema = new mongoose.Schema({
         maxlength: 50
     }, 
     // TODO: Add user field 
+    user : {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
     start: {
         type: Date,
         required: true
