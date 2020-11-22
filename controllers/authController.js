@@ -82,4 +82,18 @@ exports.logIn = asyncHandler( async (request, response, next) => {
 
     response.status(200).json({success: true, data: user});
  });
+ 
+
+ exports.forgotPassword = asyncHandler(async (request, response, next) => {
+    const user = await User.findOne({email: request.body.email});
+
+    if (!user){
+        return next(new ErrorResponse('No user with this email'));
+    }
+
+    const resetPasswordToken = user.getResetPasswordToken();
+    await user.save({validateBeforeSave: false});
+
+   response.status(200).json({success: true, data: user});
+});
 
