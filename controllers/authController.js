@@ -2,6 +2,8 @@ const UserModel = require('../models/User.js');
 const ErrorResponse = require('../utilities/errorResponse')
 const asyncHandler = require('../middlewares/async');
 const User = require('../models/User');
+const sendEmail = require('../utilities/emailSender');
+const { subscribe } = require('../routes/auth.js');
 
 
 /**
@@ -93,6 +95,29 @@ exports.logIn = asyncHandler( async (request, response, next) => {
 
     const resetPasswordToken = user.getResetPasswordToken();
     await user.save({validateBeforeSave: false});
+
+    // create password reset url
+    const resetUrl = `${request.protocol}://${request.get('host')}/api/v1/resetpassword/${resetPasswordToken}`;
+
+    const message = `Click to change password ${resetUrl}`
+
+   try {
+       await sendEmail({
+           email: user.email,
+           subject: 'Password Reset', 
+           message
+           
+       })
+       response.status(200).json({"success": true, data: 'Email sent'})
+   } catch (error) {
+       user.resetPasswordToken = undefined;
+       user.resetPasswordExpiry = undefined;
+
+       await user.save({validateBeforeSave: false});
+
+       return next(new ErrorResponse("Email not sent :(", 500));
+    
+   }
 
    response.status(200).json({success: true, data: user});
 });
