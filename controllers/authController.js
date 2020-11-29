@@ -84,10 +84,27 @@ exports.logIn = asyncHandler( async (request, response, next) => {
 
     response.status(200).json({success: true, data: user});
  });
+
+
+ /**
+ * Register Get Logged In User
+ * GET /api/v1/auth/logout
+ * @access Private
+ **/
+
+
+exports.logOut = asyncHandler(async (request, response, next) => {
+   
+    response.cookie('token','none', { expires: new Date( Date.now() + 10 * 1000),
+    httpOnly: true });
+   response.status(200).json({success: true, data: {}});
+});
+
  
 
  exports.forgotPassword = asyncHandler(async (request, response, next) => {
     const user = await User.findOne({email: request.body.email});
+    console.log(user.email)
 
     if (!user){
         return next(new ErrorResponse('No user with this email'));
@@ -110,6 +127,7 @@ exports.logIn = asyncHandler( async (request, response, next) => {
        })
        response.status(200).json({"success": true, data: 'Email sent'})
    } catch (error) {
+       console.log(error)
        user.resetPasswordToken = undefined;
        user.resetPasswordExpiry = undefined;
 

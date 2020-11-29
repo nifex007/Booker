@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const { options } = require("../routes/auth");
 
 // async..await is not allowed in global scope, must use a wrapper
-const sendEmail = async () => {
+const sendEmail = async (options) => {
   
 
   // create reusable transporter object using the default SMTP transport
