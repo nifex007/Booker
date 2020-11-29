@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
+const mongoSanitize = require('express-mongo-sanitize');
 const errorHandler = require('./middlewares/errorHandler')
 const connectDatabase = require('./config/database');
 
@@ -29,7 +30,8 @@ const logger = (request, response, next) => {
     next();
 };
 
-app.use(logger)
+app.use(logger);
+app.use(mongoSanitize());
 
 
 // Mount Routers
